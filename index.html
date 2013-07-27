@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span8 offset2">
+                    <h1>Tabs</h1>
+                    <div class="tabs" id="mytab">
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a href="#first">First</a></li>
+                          <li><a href="#second">Second</a></li>
+                          <li><a href="#third">Third</a></li>
+                          <li><a href="#fourth">Fourth</a></li>
+                        </ul>
+                         
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="first">
+                            <h1>First tab</h1>
+                            <p>First tab content</p>
+                          </div>
+                          <div class="tab-pane" id="second">
+                            <h1>Second tab</h1>
+                            <p>Second tab content</p>
+                          </div>
+                          <div class="tab-pane" id="third">
+                            <h1>Third tab</h1>
+                            <p>Third tab content</p>
+                          </div>
+                          <div class="tab-pane" id="fourth">
+                            <h1>Fourth tab</h1>
+                            <p>Fourth tab content</p>
+                          </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="js/tab.js"></script>
+        <script src="js/jquery.ba-bbq.min.js"></script>
+
+        <script>
+             $(function(){
+             
+              var tabs = $('.tabs'),
+                tab_a_selector = '.nav-tabs a';
+             
+              tabs.find( tab_a_selector ).click(function(e){
+             
+                e.preventDefault();
+             
+                $(this).tab('show');
+             
+                var state = {},
+                  // Get the id of this tab widget.
+                  id = $(this).closest( '.tabs' ).attr( 'id' ),
+                  // Get the index of this tab.
+                  idx = $(this).parent().prevAll().length;
+             
+                // Set the state!
+                state[ id ] = idx;
+                $.bbq.pushState( state );
+              });
+             
+              $(window)
+              .on( 'hashchange', function(e) {
+                tabs.each(function(){
+                  var idx = $.bbq.getState( this.id, true ) || 0;
+                  $(this).find( tab_a_selector ).eq( idx ).triggerHandler( 'click' );
+                });
+              })
+              .trigger( 'hashchange' );
+            });
+        </script>
+
+    </body>
+</html>
